@@ -2,7 +2,7 @@ Documento de Requisitos
 
 Requisitos Funcionais (RF)
 
-ID | Descrição | Prioridade 
+```ID | Descrição | Prioridade ```
 
 | **RF01** | O sistema deve permitir o cadastro de usuários (Alunos e Monitores) com e-mail institucional. | Alta |
 
