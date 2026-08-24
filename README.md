@@ -3,7 +3,6 @@ Sistema de Agendamento de Monitorias Acadêmicas
 
   
 Projeto Integrador II  
-André Barbosa de Oliveira   
 
 Introdução
 O Sistema de Agendamento de Monitorias Acadêmicas é uma solução web desenvolvida para otimizar o fluxo de atendimento entre monitores e estudantes no ambiente acadêmico. A plataforma centraliza a gestão de horários, permitindo que os alunos reservem sessões de estudo de forma rápida e organizada.
