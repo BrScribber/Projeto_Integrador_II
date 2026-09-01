@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Monitorias Acadêmicas</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { background-color: #f0f2f5; padding: 20px; color: #333; }
+        .container { max-width: 700px; margin: 30px auto; background: #fff; padding: 30px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        h1 { color: #1a365d; text-align: center; margin-bottom: 8px; font-size: 24px; }
+        p.subtitle { text-align: center; color: #666; margin-bottom: 25px; font-size: 14px; }
+        .form-group { margin-bottom: 18px; }
+        label { display: block; margin-bottom: 6px; font-weight: 600; font-size: 14px; color: #2d3748; }
+        input, select { width: 100%; padding: 12px; border: 1px solid #cbd5e0; border-radius: 6px; font-size: 14px; }
+        button { width: 100%; padding: 14px; background-color: #2b6cb0; color: white; border: none; border-radius: 6px; font-weight: bold; font-size: 16px; cursor: pointer; margin-top: 10px; }
+        button:hover { background-color: #2c5282; }
+        .alert { margin-top: 20px; padding: 15px; border-radius: 6px; display: none; font-weight: 600; text-align: center; }
+        .alert-success { background-color: #c6f6d5; color: #22543d; border: 1px solid #9ae6b4; }
+        .appointments { margin-top: 30px; border-top: 2px solid #edf2f7; padding-top: 20px; }
+        .appointment-card { background: #f7fafc; padding: 12px; border-left: 4px solid #2b6cb0; margin-top: 10px; border-radius: 4px; font-size: 14px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎓 Agendamento de Monitorias</h1>
+        <p class="subtitle">Projeto Integrador II - Faculdade de Informática</p>
+        
+        <form id="bookingForm">
+            <div class="form-group">
+                <label for="studentName">Nome do Aluno (com e-mail institucional):</label>
+                <input type="text" id="studentName" placeholder="Ex: João Silva (joao@ufpi.edu.br)" required>
+            </div>
+            <div class="form-group">
+                <label for="subject">Disciplina:</label>
+                <select id="subject" required>
+                    <option value="">Selecione uma disciplina...</option>
+                    <option value="Algoritmos e Programação">Algoritmos e Programação</option>
+                    <option value="Estrutura de Dados">Estrutura de Dados</option>
+                    <option value="Banco de Dados Relacional">Banco de Dados Relacional</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="schedule">Horário Livre Disponível:</label>
+                <select id="schedule" required>
+                    <option value="">Selecione um horário...</option>
+                    <option value="Terça-feira - 14:00 às 15:00">Terça-feira - 14:00 às 15:00</option>
+                    <option value="Quarta-feira - 10:00 às 11:00">Quarta-feira - 10:00 às 11:00</option>
+                    <option value="Quinta-feira - 16:00 às 17:00">Quinta-feira - 16:00 às 17:00</option>
+                </select>
+            </div>
+            <button type="submit">Confirmar Agendamento</button>
+        </form>
+
+        <div id="statusAlert" class="alert alert-success">Agendamento realizado com sucesso!</div>
+
+        <div class="appointments">
+            <h3>📌 Meus Agendamentos Confirmados</h3>
+            <div id="list"></div>
+        </div>
+    </div>
+
+    <script>
+        const form = document.getElementById('bookingForm');
+        const alertBox = document.getElementById('statusAlert');
+        const list = document.getElementById('list');
+
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const student = document.getElementById('studentName').value;
+            const subject = document.getElementById('subject').value;
+            const schedule = document.getElementById('schedule').value;
+
+            const card = document.createElement('div');
+            card.className = 'appointment-card';
+            card.innerHTML = `<strong>${subject}</strong><br>Aluno: ${student}<br>Horário: ${schedule}`;
+            list.appendChild(card);
+
+            alertBox.style.display = 'block';
+            setTimeout(() => { alertBox.style.display = 'none'; }, 3000);
+            form.reset();
+        });
+    </script>
+</body>
+</html>
