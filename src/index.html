@@ -1,85 +1,668 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sistema de Monitorias Acadêmicas</title>
-    <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-        body { background-color: #f0f2f5; padding: 20px; color: #333; }
-        .container { max-width: 700px; margin: 30px auto; background: #fff; padding: 30px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
-        h1 { color: #1a365d; text-align: center; margin-bottom: 8px; font-size: 24px; }
-        p.subtitle { text-align: center; color: #666; margin-bottom: 25px; font-size: 14px; }
-        .form-group { margin-bottom: 18px; }
-        label { display: block; margin-bottom: 6px; font-weight: 600; font-size: 14px; color: #2d3748; }
-        input, select { width: 100%; padding: 12px; border: 1px solid #cbd5e0; border-radius: 6px; font-size: 14px; }
-        button { width: 100%; padding: 14px; background-color: #2b6cb0; color: white; border: none; border-radius: 6px; font-weight: bold; font-size: 16px; cursor: pointer; margin-top: 10px; }
-        button:hover { background-color: #2c5282; }
-        .alert { margin-top: 20px; padding: 15px; border-radius: 6px; display: none; font-weight: 600; text-align: center; }
-        .alert-success { background-color: #c6f6d5; color: #22543d; border: 1px solid #9ae6b4; }
-        .appointments { margin-top: 30px; border-top: 2px solid #edf2f7; padding-top: 20px; }
-        .appointment-card { background: #f7fafc; padding: 12px; border-left: 4px solid #2b6cb0; margin-top: 10px; border-radius: 4px; font-size: 14px; }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light">
+<title>Sistema de Agendamento de Monitorias Acadêmicas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --color-bg: #F4F8F9;
+    --color-surface: #FFFFFF;
+    --color-primary: #0E7C86;
+    --color-primary-dark: #0B646C;
+    --color-primary-light: #E2F3F4;
+    --color-graphite: #2B333A;
+    --color-graphite-soft: #626D76;
+    --color-border: #DDE6E8;
+    --color-danger: #C1554A;
+    --color-danger-light: #FBEAE8;
+    --radius-md: 12px;
+    --radius-lg: 20px;
+    --shadow-soft: 0 8px 24px rgba(14, 124, 134, 0.10);
+    --shadow-hover: 0 14px 32px rgba(14, 124, 134, 0.16);
+    --font-display: 'Space Grotesk', sans-serif;
+    --font-body: 'Inter', sans-serif;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { -webkit-text-size-adjust: 100%; }
+
+  body {
+    font-family: var(--font-body);
+    background-color: var(--color-bg);
+    color: var(--color-graphite);
+    line-height: 1.5;
+    min-height: 100vh;
+  }
+
+  .page {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 32px 18px 64px;
+  }
+
+  .hero {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 10px;
+    margin-bottom: 32px;
+  }
+
+  .hero-icon {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: var(--color-primary-light);
+    color: var(--color-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 4px;
+  }
+
+  .hero h1 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: clamp(1.6rem, 4vw, 2.15rem);
+    color: var(--color-graphite);
+    letter-spacing: -0.01em;
+  }
+
+  .hero-subtitle {
+    color: var(--color-graphite-soft);
+    font-size: 0.95rem;
+    max-width: 420px;
+  }
+
+  .layout {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  @media (min-width: 860px) {
+    .layout {
+      display: grid;
+      grid-template-columns: 380px 1fr;
+      align-items: start;
+      gap: 24px;
+    }
+  }
+
+  .panel {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-soft);
+    padding: 26px 22px;
+  }
+
+  .panel h2 {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 1.1rem;
+    margin-bottom: 18px;
+    color: var(--color-graphite);
+  }
+
+  .field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 16px;
+  }
+
+  .field-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+
+  @media (max-width: 420px) {
+    .field-row { grid-template-columns: 1fr; }
+  }
+
+  label {
+    font-size: 0.83rem;
+    font-weight: 600;
+    color: var(--color-graphite);
+  }
+
+  input, select {
+    font-family: var(--font-body);
+    font-size: 0.95rem;
+    padding: 11px 13px;
+    border-radius: var(--radius-md);
+    border: 1.5px solid var(--color-border);
+    background: #FBFDFD;
+    color: var(--color-graphite);
+    width: 100%;
+    transition: border-color 0.18s ease, box-shadow 0.18s ease;
+  }
+
+  input:focus, select:focus {
+    outline: none;
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 4px var(--color-primary-light);
+  }
+
+  input.input-error, select.input-error {
+    border-color: var(--color-danger);
+  }
+
+  input.input-error:focus, select.input-error:focus {
+    box-shadow: 0 0 0 4px var(--color-danger-light);
+  }
+
+  .field-hint {
+    font-size: 0.78rem;
+    color: var(--color-graphite-soft);
+  }
+
+  .field-error {
+    font-size: 0.8rem;
+    color: var(--color-danger);
+    min-height: 1.1em;
+  }
+
+  .btn-primary {
+    margin-top: 4px;
+    width: 100%;
+    padding: 13px;
+    border: none;
+    border-radius: var(--radius-md);
+    background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark));
+    color: #fff;
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    box-shadow: 0 6px 16px rgba(14, 124, 134, 0.25);
+    transition: transform 0.18s ease, box-shadow 0.18s ease;
+  }
+
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-hover);
+  }
+
+  .btn-primary:active { transform: translateY(0); }
+
+  .empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 6px;
+    padding: 40px 12px;
+    color: var(--color-graphite-soft);
+  }
+
+  .empty-state svg { color: var(--color-primary); opacity: 0.55; margin-bottom: 6px; }
+  .empty-state p { font-weight: 600; color: var(--color-graphite); font-size: 0.98rem; }
+  .empty-state span { font-size: 0.85rem; max-width: 280px; }
+
+  .appointments-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .appointment-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 14px;
+    background: #FBFDFD;
+    border: 1px solid var(--color-border);
+    border-left: 4px solid var(--color-primary);
+    border-radius: var(--radius-md);
+    padding: 14px 16px;
+    transition: transform 0.18s ease, box-shadow 0.18s ease;
+  }
+
+  .appointment-card:hover {
+    transform: translateX(3px);
+    box-shadow: var(--shadow-soft);
+  }
+
+  .appointment-main {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    min-width: 0;
+  }
+
+  .appointment-subject {
+    font-weight: 700;
+    font-size: 0.95rem;
+    color: var(--color-graphite);
+  }
+
+  .appointment-datetime {
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--color-primary-dark);
+  }
+
+  .appointment-student {
+    font-size: 0.8rem;
+    color: var(--color-graphite-soft);
+    overflow-wrap: anywhere;
+  }
+
+  .btn-cancel {
+    flex-shrink: 0;
+    background: transparent;
+    border: 1.5px solid var(--color-danger);
+    color: var(--color-danger);
+    padding: 8px 14px;
+    border-radius: var(--radius-md);
+    font-size: 0.82rem;
+    font-weight: 600;
+    font-family: var(--font-body);
+    cursor: pointer;
+    transition: background 0.18s ease, color 0.18s ease, transform 0.18s ease;
+  }
+
+  .btn-cancel:hover {
+    background: var(--color-danger);
+    color: #fff;
+    transform: translateY(-1px);
+  }
+
+  button:focus-visible, input:focus-visible, select:focus-visible {
+    outline: 3px solid var(--color-primary);
+    outline-offset: 2px;
+  }
+
+  .toast {
+    position: fixed;
+    left: 50%;
+    bottom: 24px;
+    transform: translate(-50%, 16px);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--color-graphite);
+    color: #fff;
+    padding: 14px 20px;
+    border-radius: var(--radius-md);
+    font-size: 0.9rem;
+    font-weight: 500;
+    box-shadow: 0 14px 32px rgba(0, 0, 0, 0.25);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s ease, transform 0.25s ease;
+    z-index: 100;
+    max-width: calc(100vw - 32px);
+  }
+
+  .toast.visible {
+    opacity: 1;
+    transform: translate(-50%, 0);
+    pointer-events: auto;
+  }
+
+  .toast svg { color: #6FE3C4; flex-shrink: 0; }
+
+  @media (prefers-reduced-motion: reduce) {
+    * {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+</style>
 </head>
 <body>
-    <div class="container">
-        <h1>🎓 Agendamento de Monitorias</h1>
-        <p class="subtitle">Projeto Integrador II - Faculdade de Informática</p>
-        
-        <form id="bookingForm">
-            <div class="form-group">
-                <label for="studentName">Nome do Aluno (com e-mail institucional):</label>
-                <input type="text" id="studentName" placeholder="Ex: João Silva (joao@ufpi.edu.br)" required>
+  <div class="page">
+    <header class="hero">
+      <div class="hero-icon" aria-hidden="true">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M22 10 12 5 2 10l10 5 10-5Z"></path>
+          <path d="M6 12.5V17c0 1.5 2.7 3 6 3s6-1.5 6-3v-4.5"></path>
+          <path d="M22 10v6"></path>
+        </svg>
+      </div>
+      <h1>Monitorias</h1>
+      <p class="hero-subtitle">Marque sua sessão de estudo no horário que funciona para você.</p>
+    </header>
+
+    <main class="layout">
+      <section class="panel form-panel" aria-labelledby="form-title">
+        <h2 id="form-title">Novo agendamento</h2>
+        <form id="bookingForm" novalidate>
+          <div class="field">
+            <label for="studentName">Nome completo</label>
+            <input
+              type="text"
+              id="studentName"
+              name="studentName"
+              placeholder="Ex: Maria Oliveira"
+              autocomplete="name"
+              required
+              pattern="^[A-Za-zÀ-ÖØ-öø-ÿ']+(\s[A-Za-zÀ-ÖØ-öø-ÿ']+)+$"
+              title="Informe seu nome completo (nome e sobrenome).">
+            <span class="field-error" id="nameError"></span>
+          </div>
+
+          <div class="field">
+            <label for="studentId">E-mail institucional ou matrícula</label>
+            <input
+              type="text"
+              id="studentId"
+              name="studentId"
+              placeholder="nome@escola.edu.br ou 2023011234"
+              autocomplete="email"
+              required
+              pattern="^([A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}|\d{6,12})$"
+              title="Informe um e-mail institucional válido ou uma matrícula com 6 a 12 dígitos.">
+            <span class="field-hint">Use seu e-mail institucional ou sua matrícula (6 a 12 dígitos).</span>
+            <span class="field-error" id="idError"></span>
+          </div>
+
+          <div class="field">
+            <label for="subject">Disciplina</label>
+            <select id="subject" name="subject" required>
+              <option value="" disabled selected>Selecione uma disciplina</option>
+              <option value="Matemática">Matemática</option>
+              <option value="Língua Portuguesa">Língua Portuguesa</option>
+              <option value="Física">Física</option>
+              <option value="Química">Química</option>
+              <option value="Biologia">Biologia</option>
+              <option value="História">História</option>
+              <option value="Geografia">Geografia</option>
+              <option value="Língua Estrangeira (Inglês)">Língua Estrangeira (Inglês)</option>
+              <option value="Filosofia">Filosofia</option>
+              <option value="Sociologia">Sociologia</option>
+              <option value="Informática/Algoritmos">Informática/Algoritmos</option>
+            </select>
+            <span class="field-error" id="subjectError"></span>
+          </div>
+
+          <div class="field-row">
+            <div class="field">
+              <label for="scheduleDate">Data</label>
+              <input type="date" id="scheduleDate" name="scheduleDate" required>
+              <span class="field-error" id="dateError"></span>
             </div>
-            <div class="form-group">
-                <label for="subject">Disciplina:</label>
-                <select id="subject" required>
-                    <option value="">Selecione uma disciplina...</option>
-                    <option value="Algoritmos e Programação">Algoritmos e Programação</option>
-                    <option value="Estrutura de Dados">Estrutura de Dados</option>
-                    <option value="Banco de Dados Relacional">Banco de Dados Relacional</option>
-                </select>
+            <div class="field">
+              <label for="scheduleTime">Horário</label>
+              <input type="time" id="scheduleTime" name="scheduleTime" required>
+              <span class="field-error" id="timeError"></span>
             </div>
-            <div class="form-group">
-                <label for="schedule">Horário Livre Disponível:</label>
-                <select id="schedule" required>
-                    <option value="">Selecione um horário...</option>
-                    <option value="Terça-feira - 14:00 às 15:00">Terça-feira - 14:00 às 15:00</option>
-                    <option value="Quarta-feira - 10:00 às 11:00">Quarta-feira - 10:00 às 11:00</option>
-                    <option value="Quinta-feira - 16:00 às 17:00">Quinta-feira - 16:00 às 17:00</option>
-                </select>
-            </div>
-            <button type="submit">Confirmar Agendamento</button>
+          </div>
+
+          <button type="submit" class="btn-primary">Confirmar agendamento</button>
         </form>
+      </section>
 
-        <div id="statusAlert" class="alert alert-success">Agendamento realizado com sucesso!</div>
+      <section class="panel list-panel" aria-labelledby="list-title">
+        <h2 id="list-title">Meus agendamentos</h2>
 
-        <div class="appointments">
-            <h3>📌 Meus Agendamentos Confirmados</h3>
-            <div id="list"></div>
+        <div id="emptyState" class="empty-state">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect x="3" y="5" width="18" height="16" rx="2"></rect>
+            <path d="M16 3v4M8 3v4M3 10h18"></path>
+          </svg>
+          <p>Nenhuma monitoria agendada ainda.</p>
+          <span>Preencha o formulário ao lado para marcar sua primeira sessão.</span>
         </div>
-    </div>
 
-    <script>
-        const form = document.getElementById('bookingForm');
-        const alertBox = document.getElementById('statusAlert');
-        const list = document.getElementById('list');
+        <ul id="appointmentsList" class="appointments-list"></ul>
+      </section>
+    </main>
+  </div>
 
-        form.addEventListener('submit', (e) => {
-            e.preventDefault();
-            const student = document.getElementById('studentName').value;
-            const subject = document.getElementById('subject').value;
-            const schedule = document.getElementById('schedule').value;
+  <div id="toast" class="toast" role="status" aria-live="polite">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M20 6 9 17l-5-5"></path>
+    </svg>
+    <span id="toastMessage">Agendamento confirmado com sucesso!</span>
+  </div>
 
-            const card = document.createElement('div');
-            card.className = 'appointment-card';
-            card.innerHTML = `<strong>${subject}</strong><br>Aluno: ${student}<br>Horário: ${schedule}`;
-            list.appendChild(card);
+  <script>
+    const STORAGE_KEY = 'monitorias_agendamentos';
 
-            alertBox.style.display = 'block';
-            setTimeout(() => { alertBox.style.display = 'none'; }, 3000);
-            form.reset();
-        });
-    </script>
+    const form = document.getElementById('bookingForm');
+    const nameInput = document.getElementById('studentName');
+    const idInput = document.getElementById('studentId');
+    const subjectInput = document.getElementById('subject');
+    const dateInput = document.getElementById('scheduleDate');
+    const timeInput = document.getElementById('scheduleTime');
+
+    const nameError = document.getElementById('nameError');
+    const idError = document.getElementById('idError');
+    const subjectError = document.getElementById('subjectError');
+    const dateError = document.getElementById('dateError');
+    const timeError = document.getElementById('timeError');
+
+    const listEl = document.getElementById('appointmentsList');
+    const emptyState = document.getElementById('emptyState');
+    const toast = document.getElementById('toast');
+    const toastMessage = document.getElementById('toastMessage');
+
+    const NAME_PATTERN = /^[A-Za-zÀ-ÖØ-öø-ÿ']+(\s[A-Za-zÀ-ÖØ-öø-ÿ']+)+$/;
+    const ID_PATTERN = /^([A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}|\d{6,12})$/;
+
+    let toastTimeout;
+
+    document.addEventListener('DOMContentLoaded', () => {
+      setMinDate();
+      renderAppointments();
+      attachErrorClearing();
+    });
+
+    function setMinDate() {
+      dateInput.setAttribute('min', formatDateForInput(new Date()));
+    }
+
+    function formatDateForInput(date) {
+      const y = date.getFullYear();
+      const m = String(date.getMonth() + 1).padStart(2, '0');
+      const d = String(date.getDate()).padStart(2, '0');
+      return `${y}-${m}-${d}`;
+    }
+
+    function formatDateForDisplay(dateStr) {
+      const [y, m, d] = dateStr.split('-').map(Number);
+      const dateObj = new Date(y, m - 1, d);
+      const formatted = dateObj.toLocaleDateString('pt-BR', {
+        weekday: 'long',
+        day: 'numeric',
+        month: 'long',
+        year: 'numeric'
+      });
+      return formatted.charAt(0).toUpperCase() + formatted.slice(1);
+    }
+
+    function getAppointments() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        return raw ? JSON.parse(raw) : [];
+      } catch (err) {
+        return [];
+      }
+    }
+
+    function saveAppointments(list) {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
+    }
+
+    function generateId() {
+      if (window.crypto && typeof window.crypto.randomUUID === 'function') {
+        return window.crypto.randomUUID();
+      }
+      return `${Date.now()}-${Math.random().toString(16).slice(2)}`;
+    }
+
+    function escapeHtml(str) {
+      const div = document.createElement('div');
+      div.textContent = str;
+      return div.innerHTML;
+    }
+
+    function renderAppointments() {
+      const appointments = getAppointments().slice().sort((a, b) => {
+        const dtA = new Date(`${a.date}T${a.time}`);
+        const dtB = new Date(`${b.date}T${b.time}`);
+        return dtA - dtB;
+      });
+
+      listEl.innerHTML = '';
+
+      if (appointments.length === 0) {
+        emptyState.style.display = 'flex';
+        listEl.style.display = 'none';
+        return;
+      }
+
+      emptyState.style.display = 'none';
+      listEl.style.display = 'flex';
+
+      appointments.forEach((appt) => {
+        const li = document.createElement('li');
+        li.className = 'appointment-card';
+        li.dataset.id = appt.id;
+
+        const formattedDate = formatDateForDisplay(appt.date);
+        const safeSubject = escapeHtml(appt.subject);
+        const safeName = escapeHtml(appt.name);
+        const safeTime = escapeHtml(appt.time);
+
+        li.innerHTML = `
+          <div class="appointment-main">
+            <span class="appointment-subject">${safeSubject}</span>
+            <span class="appointment-datetime">${formattedDate} às ${safeTime}</span>
+            <span class="appointment-student">${safeName}</span>
+          </div>
+          <button type="button" class="btn-cancel" data-id="${appt.id}" aria-label="Cancelar agendamento de ${safeSubject}">Cancelar agendamento</button>
+        `;
+
+        listEl.appendChild(li);
+      });
+    }
+
+    function clearFieldErrors() {
+      [nameError, idError, subjectError, dateError, timeError].forEach((el) => {
+        el.textContent = '';
+      });
+      [nameInput, idInput, subjectInput, dateInput, timeInput].forEach((el) => {
+        el.classList.remove('input-error');
+      });
+    }
+
+    function showFieldError(inputEl, errorEl, message) {
+      inputEl.classList.add('input-error');
+      errorEl.textContent = message;
+    }
+
+    function attachErrorClearing() {
+      const fields = [
+        [nameInput, nameError],
+        [idInput, idError],
+        [subjectInput, subjectError],
+        [dateInput, dateError],
+        [timeInput, timeError]
+      ];
+      fields.forEach(([inputEl, errorEl]) => {
+        const clear = () => {
+          inputEl.classList.remove('input-error');
+          errorEl.textContent = '';
+        };
+        inputEl.addEventListener('input', clear);
+        inputEl.addEventListener('change', clear);
+      });
+    }
+
+    function validateForm() {
+      clearFieldErrors();
+      let isValid = true;
+
+      const nameValue = nameInput.value.trim();
+      if (!nameValue || !NAME_PATTERN.test(nameValue)) {
+        showFieldError(nameInput, nameError, 'Informe seu nome completo (nome e sobrenome).');
+        isValid = false;
+      }
+
+      const idValue = idInput.value.trim();
+      if (!idValue || !ID_PATTERN.test(idValue)) {
+        showFieldError(idInput, idError, 'Informe um e-mail institucional válido ou uma matrícula com 6 a 12 dígitos.');
+        isValid = false;
+      }
+
+      if (!subjectInput.value) {
+        showFieldError(subjectInput, subjectError, 'Selecione uma disciplina.');
+        isValid = false;
+      }
+
+      const todayStr = formatDateForInput(new Date());
+      if (!dateInput.value) {
+        showFieldError(dateInput, dateError, 'Selecione uma data.');
+        isValid = false;
+      } else if (dateInput.value < todayStr) {
+        showFieldError(dateInput, dateError, 'A data não pode estar no passado.');
+        isValid = false;
+      }
+
+      if (!timeInput.value) {
+        showFieldError(timeInput, timeError, 'Selecione um horário.');
+        isValid = false;
+      }
+
+      return isValid;
+    }
+
+    function showToast(message) {
+      toastMessage.textContent = message;
+      toast.classList.add('visible');
+      clearTimeout(toastTimeout);
+      toastTimeout = setTimeout(() => toast.classList.remove('visible'), 3000);
+    }
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      if (!validateForm()) return;
+
+      const appointment = {
+        id: generateId(),
+        name: nameInput.value.trim(),
+        studentId: idInput.value.trim(),
+        subject: subjectInput.value,
+        date: dateInput.value,
+        time: timeInput.value
+      };
+
+      const appointments = getAppointments();
+      appointments.push(appointment);
+      saveAppointments(appointments);
+      renderAppointments();
+      showToast('Agendamento confirmado com sucesso!');
+
+      form.reset();
+      setMinDate();
+    });
+
+    listEl.addEventListener('click', (e) => {
+      const btn = e.target.closest('.btn-cancel');
+      if (!btn) return;
+
+      const id = btn.dataset.id;
+      const appointments = getAppointments().filter((appt) => appt.id !== id);
+      saveAppointments(appointments);
+      renderAppointments();
+    });
+  </script>
 </body>
 </html>
