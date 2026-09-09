@@ -26,5 +26,5 @@ Este documento reúne a matriz de testes funcionais executados no protótipo web
 
 ## 🗣️ 3. Feedback da Validação com Usuários Reais
 
-* *A utilização do site foi feita em vídeo, infelizmente o Github não suporta o tamanho do vídeo. Encamaminhei o vídeo no Email*
+* *A utilização do site foi feita em vídeo, infelizmente o Github não suporta o tamanho do vídeo. Encamaminhei o vídeo no Email.*
 
