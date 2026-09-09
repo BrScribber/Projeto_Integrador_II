@@ -26,5 +26,5 @@ Este documento reúne a matriz de testes funcionais executados no protótipo web
 
 ## 🗣️ 3. Feedback da Validação com Usuários Reais
 
-* **Estudante (Usuário Aluno):** *"A possibilidade de cancelar o agendamento e a validação do e-mail institucional trouxeram muito mais segurança para o uso no dia a dia."*
-* **Monitor (Usuário Administrador):** *"O design ficou muito limpo e intuitivo. O filtro automático de datas passadas evita confusões de horário."*
+* *A utilização do site foi feita em vídeo, infelizmente o Github não suporta o tamanho do vídeo. Encamaminhei o vídeo no Email*
+
