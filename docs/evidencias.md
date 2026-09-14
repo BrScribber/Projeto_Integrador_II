@@ -5,6 +5,16 @@
 > **Versão:** v1.0.0  
 
 ---
+# 📸 Diretório de Evidências e Demonstração
+
+## 🎥 1. Demonstração em Vídeo
+https://youtube.com/shorts/jIAAni0sMlg
+
+## 🌐 2. Aplicação Online
+https://brscribber.github.io/Projeto_Integrador_II/
+
+
+
 
 ## 🌐 1. Publicação e Hospedagem (Deploy)
 A aplicação foi colocada no ar utilizando o serviço **GitHub Pages**, garantindo disponibilidade pública instantânea e execução client-side sem custos de infraestrutura.
