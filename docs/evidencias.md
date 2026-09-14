@@ -9,7 +9,7 @@
 ## 🌐 1. Publicação e Hospedagem (Deploy)
 A aplicação foi colocada no ar utilizando o serviço **GitHub Pages**, garantindo disponibilidade pública instantânea e execução client-side sem custos de infraestrutura.
 
-* 🔗 **Link do Sistema no Ar:** [Acesse a Aplicação Online](https://seu-usuario.github.io/Projeto_Integrador_II/src/)
+* 🔗 **Link do Sistema no Ar:** https://brscribber.github.io/Projeto_Integrador_II/
 
 ---
 
