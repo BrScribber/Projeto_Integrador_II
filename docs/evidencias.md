@@ -17,6 +17,7 @@ A aplicação foi colocada no ar utilizando o serviço **GitHub Pages**, garanti
 Para o escopo desta versão (v1.0.0), optou-se pela utilização do **LocalStorage (Web Storage API)** como banco de dados relacional client-side. 
 
 * **Justificativa Técnica:** O `LocalStorage` atua como uma base de dados Chave-Valor embutida no navegador, permitindo persistência de dados em JSON, zero latência de rede e dispensa de servidores backend complexos para a validação do protótipo funcional.
+
 ---
 
 ## 🖼️ 3. Galeria de Evidências do Desenvolvimento
@@ -29,12 +30,14 @@ Para o escopo desta versão (v1.0.0), optou-se pela utilização do **LocalStora
 
 ### Evidência 02: Execução do Código e LocalStorage no DevTools
 *Inspeção do navegador (F12 > Application > Local Storage) comprovando a gravação dos agendamentos em banco de dados local.*
-![Print do LocalStorage](https://raw.githubusercontent.com/seu-usuario/Projeto_Integrador_II/main/docs/prints/localstorage.png)
+<img width="1920" height="1045" alt="image" src="https://github.com/user-attachments/assets/1b28dcc6-59e7-4ecf-9969-9fcd97b6c093" />
 
 ### Evidência 03: Validação de Formulário e Interface
 *Demonstração do bloqueio de datas passadas e validação do e-mail institucional/matrícula.*
-![Print das Validações](https://raw.githubusercontent.com/seu-usuario/Projeto_Integrador_II/main/docs/prints/validacao.png)
+<img width="1920" height="1045" alt="image" src="https://github.com/user-attachments/assets/6d552735-cb70-4811-a5e9-6dff85d65c05" />
+
 
 ### Evidência 04: Histórico de Commits e Versionamento
 *Histórico de produção no GitHub demonstrando o fluxo incremental de desenvolvimento.*
-![Print dos Commits](https://raw.githubusercontent.com/seu-usuario/Projeto_Integrador_II/main/docs/prints/commits.png)
+<img width="1491" height="2604" alt="Print GitHub" src="https://github.com/user-attachments/assets/264a4e7e-3abf-4ed9-9b30-bb34f3e3d445" />
+
